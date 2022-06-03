@@ -65,7 +65,7 @@ gen-client-web:
 	docker run \
 		--rm -v ${PWD}:/local \
 		--user ${UID}:${GID} \
-		openapitools/openapi-generator-cli:v6.0.0-beta generate \
+		openapitools/openapi-generator-cli:v6.0.0 generate \
 		-i /local/schema.yml \
 		-g typescript-fetch \
 		-o /local/gen-ts-api \
@@ -83,7 +83,7 @@ gen-client-go:
 	docker run \
 		--rm -v ${PWD}:/local \
 		--user ${UID}:${GID} \
-		openapitools/openapi-generator-cli:v5.2.1 generate \
+		openapitools/openapi-generator-cli:v6.0.0 generate \
 		-i /local/schema.yml \
 		-g go \
 		-o /local/gen-go-api \
@@ -99,10 +99,17 @@ migrate:
 run:
 	go run -v cmd/server/main.go
 
-web-watch:
-	cd web && npm run watch
+#########################
+## Web
+#########################
 
 web: web-lint-fix web-lint web-extract
+
+web-install:
+	cd web && npm ci
+
+web-watch:
+	cd web && npm run watch
 
 web-lint-fix:
 	cd web && npm run prettier
@@ -113,6 +120,21 @@ web-lint:
 
 web-extract:
 	cd web && npm run extract
+
+#########################
+## Website
+#########################
+
+website: website-lint-fix
+
+website-install:
+	cd website && npm ci
+
+website-lint-fix:
+	cd website && npm run prettier
+
+website-watch:
+	cd website && npm run watch
 
 # These targets are use by GitHub actions to allow usage of matrix
 # which makes the YAML File a lot smaller
@@ -139,10 +161,8 @@ ci-pyright: ci--meta-debug
 ci-pending-migrations: ci--meta-debug
 	./manage.py makemigrations --check
 
-install:
+install: web-install website-install
 	poetry install
-	cd web && npm ci
-	cd website && npm ci
 
 a: install
 	tmux \

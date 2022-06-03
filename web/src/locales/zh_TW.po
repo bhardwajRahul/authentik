@@ -22,14 +22,15 @@ msgstr ""
 #~ msgid "#/identity/users/{0}"
 #~ msgstr "#/identity/users/{0}"
 
-#: src/pages/providers/oauth2/OAuth2ProviderForm.ts
-#: src/pages/providers/oauth2/OAuth2ProviderForm.ts
-#: src/pages/providers/proxy/ProxyProviderForm.ts
-#: src/pages/providers/saml/SAMLProviderForm.ts
+#: src/elements/utils/TimeDeltaHelp.ts
+#~ msgid "(Format: days=-1;minutes=-2;seconds=-3)."
+#~ msgstr ""
+
+#: src/elements/utils/TimeDeltaHelp.ts
 msgid "(Format: hours=-1;minutes=-2;seconds=-3)."
 msgstr "(格式： hours=-1;minutes=-2;seconds=-3)."
 
-#: src/pages/stages/user_login/UserLoginStageForm.ts
+#: src/elements/utils/TimeDeltaHelp.ts
 msgid "(Format: hours=1;minutes=2;seconds=3)."
 msgstr "(格式： hours=1;minutes=2;seconds=3)."
 
@@ -446,8 +447,12 @@ msgid "Are you sure you want to update {0} \"{1}\"?"
 msgstr "你确定要更新 {0} \"{1}\" 吗？"
 
 #: src/pages/providers/saml/SAMLProviderForm.ts
-msgid "Assertion not valid on or after current time + this value (Format: hours=1;minutes=2;seconds=3)."
-msgstr "断言在当前时间+此值时或之后无效（格式：hours=1；minutes=2；seconds=3）。"
+#~ msgid "Assertion not valid on or after current time + this value (Format: hours=1;minutes=2;seconds=3)."
+#~ msgstr "断言在当前时间+此值时或之后无效（格式：hours=1；minutes=2；seconds=3）。"
+
+#: src/pages/providers/saml/SAMLProviderForm.ts
+msgid "Assertion not valid on or after current time + this value."
+msgstr ""
 
 #: src/pages/providers/saml/SAMLProviderForm.ts
 msgid "Assertion valid not before"
@@ -927,6 +932,10 @@ msgstr "清除缓存"
 msgid "Clear icon"
 msgstr "清除图标"
 
+#: src/elements/table/TablePage.ts
+msgid "Clear search"
+msgstr ""
+
 #: src/elements/forms/HorizontalFormElement.ts
 msgid "Click to change value"
 msgstr "单击以更改值"
@@ -1128,6 +1137,14 @@ msgstr "消费者密钥"
 #: src/pages/sources/oauth/OAuthSourceForm.ts
 msgid "Consumer secret"
 msgstr "消费者机密"
+
+#: src/pages/flows/utils.ts
+msgid "Content left"
+msgstr ""
+
+#: src/pages/flows/utils.ts
+msgid "Content right"
+msgstr ""
 
 #: src/pages/events/EventInfo.ts
 #: src/pages/events/EventInfo.ts
@@ -1522,6 +1539,11 @@ msgstr "删除 {0}"
 msgid "Deny the user access"
 msgstr "拒绝用户访问"
 
+#: src/pages/providers/oauth2/OAuth2ProviderForm.ts
+#: src/pages/providers/oauth2/OAuth2ProviderForm.ts
+msgid "Deprecated. Instead of using this field, configure the JWKS data/URL in Sources."
+msgstr ""
+
 #: src/pages/applications/ApplicationForm.ts
 #: src/pages/property-mappings/PropertyMappingScopeForm.ts
 #: src/pages/system-tasks/SystemTaskListPage.ts
@@ -1587,8 +1609,12 @@ msgid "Digits"
 msgstr "数字"
 
 #: src/pages/providers/ldap/LDAPProviderForm.ts
-msgid "Direct querying, always execute the configured bind flow to authenticate the user."
+msgid "Direct binding, always execute the configured bind flow to authenticate the user."
 msgstr ""
+
+#: src/pages/providers/ldap/LDAPProviderForm.ts
+#~ msgid "Direct querying, always execute the configured bind flow to authenticate the user."
+#~ msgstr ""
 
 #: src/pages/providers/ldap/LDAPProviderForm.ts
 msgid "Direct querying, always returns the latest data, but slower than cached querying."
@@ -2051,6 +2077,11 @@ msgstr "未能删除策略缓存"
 msgid "Failed to delete {0}: {1}"
 msgstr "无法删除 {0}: {1}"
 
+#: src/user/user-settings/sources/SourceSettingsOAuth.ts
+#: src/user/user-settings/sources/SourceSettingsPlex.ts
+msgid "Failed to disconnected source: {exc}"
+msgstr ""
+
 #: src/pages/users/UserActiveForm.ts
 msgid "Failed to update {0}: {1}"
 msgstr "更新失败 {0}：{1}"
@@ -2372,6 +2403,10 @@ msgstr "HTTP-Basic 用户名密钥"
 msgid "HTTPS is not detected correctly"
 msgstr "未正确检测到 HTTPS"
 
+#: src/pages/stages/authenticator_sms/AuthenticatorSMSStageForm.ts
+msgid "Hash phone number"
+msgstr ""
+
 #~ msgid "Have I been pwned"
 #~ msgstr "Have I been pwned"
 
@@ -2409,6 +2444,7 @@ msgstr "隐藏服务账户"
 
 #: src/pages/events/RuleForm.ts
 #: src/pages/outposts/OutpostForm.ts
+#: src/pages/providers/oauth2/OAuth2ProviderForm.ts
 #: src/pages/providers/oauth2/OAuth2ProviderForm.ts
 #: src/pages/providers/oauth2/OAuth2ProviderForm.ts
 #: src/pages/providers/proxy/ProxyProviderForm.ts
@@ -2475,6 +2511,14 @@ msgstr "标识符"
 
 #~ msgid "Identity & Cryptography"
 #~ msgstr "身份与加密"
+
+#: src/pages/stages/authenticator_validate/AuthenticatorValidateStageForm.ts
+msgid "If any of the devices user of the types selected above have been used within this duration, this stage will be skipped."
+msgstr ""
+
+#: src/pages/stages/authenticator_sms/AuthenticatorSMSStageForm.ts
+msgid "If enabled, only a hash of the phone number will be saved. This can be done for data-protection reasons.Devices created from a stage with this enabled cannot be used with the authenticator validation stage."
+msgstr ""
 
 #: src/pages/outposts/ServiceConnectionDockerForm.ts
 #: src/pages/outposts/ServiceConnectionKubernetesForm.ts
@@ -2670,9 +2714,14 @@ msgstr "Issuer"
 msgid "Issuer mode"
 msgstr "Issuer mode"
 
+#: src/pages/sources/oauth/OAuthSourceForm.ts
+msgid "JSON Web Key URL. Keys from the URL will be used to validate JWTs from this source."
+msgstr ""
+
 #~ msgid "JWT Algorithm"
 #~ msgstr "JWT 算法"
 
+#: src/pages/providers/oauth2/OAuth2ProviderForm.ts
 #: src/pages/providers/oauth2/OAuth2ProviderForm.ts
 msgid "JWTs signed by certificates configured here can be used to authenticate to the provider."
 msgstr "此处配置的证书签名的 JWT 可以用于此提供程序的身份验证。"
@@ -2692,13 +2741,14 @@ msgstr "用于签署传出请求的密钥对。留空则禁用签名。"
 msgid "Kubeconfig"
 msgstr "Kubeconfig"
 
+#: src/pages/outposts/OutpostForm.ts
 #: src/pages/outposts/OutpostListPage.ts
 msgid "LDAP"
 msgstr "LDAP"
 
 #: src/pages/outposts/OutpostForm.ts
-msgid "LDAP (Technical preview)"
-msgstr "LDAP（技术预览版）"
+#~ msgid "LDAP (Technical preview)"
+#~ msgstr "LDAP（技术预览版）"
 
 #: src/pages/sources/ldap/LDAPSourceForm.ts
 msgid "LDAP Attribute mapping"
@@ -2749,6 +2799,10 @@ msgstr "最后显示：{0}"
 msgid "Last sync: {0}"
 msgstr "上次同步：{0}"
 
+#: src/pages/stages/authenticator_validate/AuthenticatorValidateStageForm.ts
+msgid "Last validation threshold"
+msgstr ""
+
 #: src/pages/applications/ApplicationViewPage.ts
 #: src/pages/applications/ApplicationViewPage.ts
 msgid "Launch"
@@ -2757,6 +2811,10 @@ msgstr "启动"
 #: src/pages/applications/ApplicationForm.ts
 msgid "Launch URL"
 msgstr "启动 URL"
+
+#: src/pages/flows/FlowForm.ts
+msgid "Layout"
+msgstr ""
 
 #: src/pages/stages/identification/IdentificationStageForm.ts
 msgid "Let the user identify themselves with their username or Email address."
@@ -2791,6 +2849,7 @@ msgstr "加载服务器"
 #: src/elements/table/Table.ts
 #: src/flows/FlowExecutor.ts
 #: src/flows/FlowExecutor.ts
+#: src/flows/FlowExecutor.ts
 #: src/flows/FlowInspector.ts
 #: src/flows/stages/access_denied/AccessDeniedStage.ts
 #: src/flows/stages/authenticator_duo/AuthenticatorDuoStage.ts
@@ -2810,6 +2869,7 @@ msgstr "加载服务器"
 #: src/flows/stages/prompt/PromptStage.ts
 #: src/pages/applications/ApplicationViewPage.ts
 #: src/pages/applications/ApplicationViewPage.ts
+#: src/user/user-settings/details/UserSettingsFlowExecutor.ts
 #: src/user/user-settings/details/UserSettingsFlowExecutor.ts
 #: src/user/user-settings/details/stages/prompt/PromptStage.ts
 #: src/user/user-settings/mfa/MFADevicesPage.ts
@@ -2840,6 +2900,7 @@ msgstr "正在加载"
 #: src/pages/providers/ldap/LDAPProviderForm.ts
 #: src/pages/providers/ldap/LDAPProviderForm.ts
 #: src/pages/providers/ldap/LDAPProviderForm.ts
+#: src/pages/providers/oauth2/OAuth2ProviderForm.ts
 #: src/pages/providers/oauth2/OAuth2ProviderForm.ts
 #: src/pages/providers/oauth2/OAuth2ProviderForm.ts
 #: src/pages/providers/oauth2/OAuth2ProviderForm.ts
@@ -2899,6 +2960,10 @@ msgstr "载入中……"
 #: src/pages/outposts/ServiceConnectionListPage.ts
 msgid "Local"
 msgstr "本地"
+
+#: src/pages/events/TransportForm.ts
+msgid "Local (notifications will be created within authentik)"
+msgstr ""
 
 #~ msgid "Locale"
 #~ msgstr "区域设置"
@@ -2964,6 +3029,10 @@ msgstr "authentik 在后台执行的长时间运行的操作。"
 #: src/user/user-settings/UserSettingsPage.ts
 msgid "MFA Devices"
 msgstr "MFA 设备"
+
+#: src/pages/providers/oauth2/OAuth2ProviderForm.ts
+msgid "Machine-to-Machine authentication settings"
+msgstr ""
 
 #: src/flows/stages/authenticator_static/AuthenticatorStaticStage.ts
 msgid "Make sure to keep these tokens in a safe place."
@@ -3310,6 +3379,7 @@ msgid "No matching events could be found."
 msgstr "找不到匹配的事件。"
 
 #: src/elements/table/Table.ts
+#: src/elements/table/TablePage.ts
 msgid "No objects found."
 msgstr "未找到任何对象。"
 
@@ -3444,6 +3514,22 @@ msgstr "OAuth 刷新代码"
 #~ msgid "OAuth/OIDC"
 #~ msgstr "OAuth/OIDC"
 
+#: src/pages/sources/oauth/OAuthSourceForm.ts
+msgid "OIDC JWKS"
+msgstr ""
+
+#: src/pages/sources/oauth/OAuthSourceForm.ts
+msgid "OIDC JWKS URL"
+msgstr ""
+
+#: src/pages/sources/oauth/OAuthSourceForm.ts
+msgid "OIDC Well-known URL"
+msgstr ""
+
+#: src/pages/sources/oauth/OAuthSourceForm.ts
+msgid "OIDC well-known configuration URL. Can be used to automatically configure the URLs above."
+msgstr ""
+
 #: src/pages/admin-overview/cards/SystemStatusCard.ts
 msgid "OK"
 msgstr "OK"
@@ -3466,8 +3552,12 @@ msgid "Objects created"
 msgstr "已创建对象"
 
 #: src/pages/stages/consent/ConsentStageForm.ts
-msgid "Offset after which consent expires. (Format: hours=1;minutes=2;seconds=3)."
-msgstr "偏移量，在此之后同意过期。（格式：hours=1;minutes=2;seconds=3）。"
+msgid "Offset after which consent expires."
+msgstr ""
+
+#: src/pages/stages/consent/ConsentStageForm.ts
+#~ msgid "Offset after which consent expires. (Format: hours=1;minutes=2;seconds=3)."
+#~ msgstr "偏移量，在此之后同意过期。（格式：hours=1;minutes=2;seconds=3）。"
 
 #: src/elements/events/ObjectChangelog.ts
 #: src/elements/events/UserEvents.ts
@@ -3989,6 +4079,10 @@ msgstr "RSA-SHA384"
 msgid "RSA-SHA512"
 msgstr "RSA-SHA512"
 
+#: src/pages/sources/oauth/OAuthSourceForm.ts
+msgid "Raw JWKS data."
+msgstr ""
+
 #: src/pages/sources/plex/PlexSourceForm.ts
 msgid "Re-authenticate with plex"
 msgstr "使用 plex 重新进行身份验证"
@@ -4036,8 +4130,12 @@ msgid "Redirect URIs"
 msgstr "重定向 URI"
 
 #: src/pages/providers/oauth2/OAuth2ProviderForm.ts
-msgid "Redirect URIs/Origins"
-msgstr "重定向 URIs/Origins"
+#~ msgid "Redirect URIs/Origins"
+#~ msgstr "重定向 URIs/Origins"
+
+#: src/pages/providers/oauth2/OAuth2ProviderForm.ts
+msgid "Redirect URIs/Origins (RegEx)"
+msgstr ""
 
 #: src/pages/sources/saml/SAMLSourceForm.ts
 msgid "Redirect binding"
@@ -4485,8 +4583,12 @@ msgid "Session duration"
 msgstr "会话持续时间"
 
 #: src/pages/providers/saml/SAMLProviderForm.ts
-msgid "Session not valid on or after current time + this value (Format: hours=1;minutes=2;seconds=3)."
-msgstr "在当前时间+此值时或之后，会话无效（格式：hours=1;minutes=2;seconds=3）。"
+#~ msgid "Session not valid on or after current time + this value (Format: hours=1;minutes=2;seconds=3)."
+#~ msgstr "在当前时间+此值时或之后，会话无效（格式：hours=1;minutes=2;seconds=3）。"
+
+#: src/pages/providers/saml/SAMLProviderForm.ts
+msgid "Session not valid on or after current time + this value."
+msgstr ""
 
 #: src/pages/providers/saml/SAMLProviderForm.ts
 msgid "Session valid not on or after"
@@ -4523,6 +4625,7 @@ msgstr ""
 
 #: src/pages/users/RelatedUserList.ts
 #: src/pages/users/UserListPage.ts
+#: src/pages/users/UserViewPage.ts
 msgid "Set password"
 msgstr "设置密码"
 
@@ -4562,6 +4665,14 @@ msgstr "显示源的标签"
 #: src/pages/flows/FlowForm.ts
 msgid "Shown as the Title in Flow pages."
 msgstr "显示为 “Flow” 页面中的标题。"
+
+#: src/pages/flows/utils.ts
+msgid "Sidebar left"
+msgstr ""
+
+#: src/pages/flows/utils.ts
+msgid "Sidebar right"
+msgstr ""
 
 #: src/flows/stages/identification/IdentificationStage.ts
 msgid "Sign up."
@@ -4644,6 +4755,10 @@ msgstr "西班牙的"
 #: src/pages/sources/ldap/LDAPSourceForm.ts
 msgid "Specify multiple server URIs by separating them with a comma."
 msgstr "通过用逗号分隔多个服务器 URI 来指定它们。"
+
+#: src/pages/flows/utils.ts
+msgid "Stacked"
+msgstr ""
 
 #: src/pages/flows/BoundStagesList.ts
 #: src/pages/flows/StageBindingForm.ts
@@ -4945,6 +5060,11 @@ msgstr "已成功创建用户。"
 #: src/elements/forms/DeleteForm.ts
 msgid "Successfully deleted {0} {1}"
 msgstr "成功删除 {0} {1}"
+
+#: src/user/user-settings/sources/SourceSettingsOAuth.ts
+#: src/user/user-settings/sources/SourceSettingsPlex.ts
+msgid "Successfully disconnected source"
+msgstr ""
 
 #: src/pages/crypto/CertificateGenerateForm.ts
 msgid "Successfully generated certificate-key pair."
@@ -5293,6 +5413,10 @@ msgstr "您将通过其访问应用程序的外部 URL。包括任何非标准�
 msgid "The external URL you'll authenticate at. The authentik core server should be reachable under this URL."
 msgstr "您将在其中进行身份验证的外部 URL。在此 URL 下应该可以访问身份验证核心服务器。"
 
+#: src/elements/utils/TimeDeltaHelp.ts
+msgid "The following keywords are supported:"
+msgstr ""
+
 #~ msgid "The following objects use {0}:"
 #~ msgstr "以下对象使用 {0}："
 
@@ -5402,8 +5526,12 @@ msgid "Time in minutes the token sent is valid."
 msgstr "发送的令牌的有效时间（以分钟为单位）。"
 
 #: src/pages/sources/saml/SAMLSourceForm.ts
-msgid "Time offset when temporary users should be deleted. This only applies if your IDP uses the NameID Format 'transient', and the user doesn't log out manually. (Format: hours=1;minutes=2;seconds=3)."
-msgstr "删除临时用户的时间偏移。这仅适用于您的 IDP 使用 NameID 格式为 “瞬态” 且用户未手动注销的情况。（格式：hours=1;minutes=2;seconds=3）。"
+msgid "Time offset when temporary users should be deleted. This only applies if your IDP uses the NameID Format 'transient', and the user doesn't log out manually."
+msgstr ""
+
+#: src/pages/sources/saml/SAMLSourceForm.ts
+#~ msgid "Time offset when temporary users should be deleted. This only applies if your IDP uses the NameID Format 'transient', and the user doesn't log out manually. (Format: hours=1;minutes=2;seconds=3)."
+#~ msgstr "删除临时用户的时间偏移。这仅适用于您的 IDP 使用 NameID 格式为 “瞬态” 且用户未手动注销的情况。（格式：hours=1;minutes=2;seconds=3）。"
 
 #~ msgid "Time-based One-Time Passwords"
 #~ msgstr "基于时间的一次性密码"
@@ -5424,8 +5552,12 @@ msgid "To"
 msgstr "To"
 
 #: src/pages/providers/oauth2/OAuth2ProviderForm.ts
-msgid "To allow any redirect URI, set this value to \"*\". Be aware of the possible security implications this can have."
-msgstr "要允许任何重定向 URI，请将此值设置为 “*”。请注意这可能带来的安全影响。"
+#~ msgid "To allow any redirect URI, set this value to \"*\". Be aware of the possible security implications this can have."
+#~ msgstr "要允许任何重定向 URI，请将此值设置为 “*”。请注意这可能带来的安全影响。"
+
+#: src/pages/providers/oauth2/OAuth2ProviderForm.ts
+msgid "To allow any redirect URI, set this value to \".*\". Be aware of the possible security implications this can have."
+msgstr ""
 
 #: src/pages/users/UserViewPage.ts
 msgid "To create a recovery link, the current tenant needs to have a recovery flow configured."
@@ -5532,6 +5664,10 @@ msgstr "暂时的"
 #: src/pages/events/RuleForm.ts
 msgid "Transports"
 msgstr "传输"
+
+#: src/pages/providers/oauth2/OAuth2ProviderForm.ts
+msgid "Trusted OIDC Sources"
+msgstr ""
 
 #: src/interfaces/locale.ts
 msgid "Turkish"
@@ -5814,6 +5950,8 @@ msgstr "更新详情"
 #: src/pages/users/RelatedUserList.ts
 #: src/pages/users/UserListPage.ts
 #: src/pages/users/UserListPage.ts
+#: src/pages/users/UserViewPage.ts
+#: src/pages/users/UserViewPage.ts
 msgid "Update password"
 msgstr "更新密码"
 
@@ -6108,6 +6246,10 @@ msgstr "验证证书"
 #: src/pages/providers/oauth2/OAuth2ProviderForm.ts
 msgid "Verification certificates"
 msgstr "验证证书"
+
+#: src/pages/stages/authenticator_sms/AuthenticatorSMSStageForm.ts
+#~ msgid "Verify only"
+#~ msgstr ""
 
 #: src/pages/stages/email/EmailStageForm.ts
 msgid "Verify the user's email address by sending them a one-time-link. Can also be used for recovery to verify the user's authenticity."

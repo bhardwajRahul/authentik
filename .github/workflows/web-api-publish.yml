@@ -1,16 +1,17 @@
 name: authentik-web-api-publish
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
     paths:
       - 'schema.yml'
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v3.1.1
+      - uses: actions/setup-node@v3.2.0
         with:
           node-version: '16'
           registry-url: 'https://registry.npmjs.org'
@@ -26,7 +27,7 @@ jobs:
       - name: Upgrade /web
         working-directory: web/
         run: |
-          export VERSION=`node -e 'console.log(require("../web-api/package.json").version)'`
+          export VERSION=`node -e 'console.log(require("../gen-ts-api/package.json").version)'`
           npm i @goauthentik/api@$VERSION
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4

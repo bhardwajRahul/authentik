@@ -1,13 +1,13 @@
 openapi: 3.0.3
 info:
   title: authentik
-  version: 2022.4.1
+  version: 2022.5.3
   description: Making authentication simple.
   contact:
-    email: hello@beryju.org
+    email: hello@goauthentik.io
   license:
     name: GNU GPLv3
-    url: https://github.com/goauthentik/authentik/blob/master/LICENSE
+    url: https://github.com/goauthentik/authentik/blob/main/LICENSE
 paths:
   /admin/apps/:
     get:
@@ -1601,6 +1601,10 @@ paths:
       operationId: core_applications_list
       description: Custom list method that checks Policy based access instead of guardian
       parameters:
+      - in: query
+        name: name
+        schema:
+          type: string
       - name: ordering
         required: false
         in: query
@@ -1623,6 +1627,10 @@ paths:
         required: false
         in: query
         description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: slug
         schema:
           type: string
       - in: query
@@ -4070,6 +4078,10 @@ paths:
           - alert
           - notice
           - warning
+      - in: query
+        name: user
+        schema:
+          type: integer
       tags:
       - events
       security:
@@ -4478,6 +4490,7 @@ paths:
           type: string
           enum:
           - email
+          - local
           - webhook
           - webhook_slack
       - in: query
@@ -6110,6 +6123,10 @@ paths:
       operationId: outposts_ldap_list
       description: LDAPProvider Viewset
       parameters:
+      - in: query
+        name: name
+        schema:
+          type: string
       - name: ordering
         required: false
         in: query
@@ -6180,6 +6197,10 @@ paths:
       operationId: outposts_proxy_list
       description: ProxyProvider Viewset
       parameters:
+      - in: query
+        name: name
+        schema:
+          type: string
       - name: ordering
         required: false
         in: query
@@ -14415,6 +14436,10 @@ paths:
         schema:
           type: string
           format: uuid
+      - in: query
+        name: verify_only
+        schema:
+          type: boolean
       tags:
       - stages
       security:
@@ -19342,10 +19367,10 @@ components:
               type: string
             lat:
               type: number
-              format: float
+              format: double
             long:
               type: number
-              format: float
+              format: double
             city:
               type: string
           required:
@@ -19587,6 +19612,11 @@ components:
           type: string
         auth_type:
           $ref: '#/components/schemas/AuthTypeEnum'
+        verify_only:
+          type: boolean
+          description: When enabled, the Phone number is only used during enrollment
+            to verify the users authenticity. Only a hash of the phone number is saved
+            to ensure it is not re-used in the future.
       required:
       - account_sid
       - auth
@@ -19630,6 +19660,11 @@ components:
           type: string
         auth_type:
           $ref: '#/components/schemas/AuthTypeEnum'
+        verify_only:
+          type: boolean
+          description: When enabled, the Phone number is only used during enrollment
+            to verify the users authenticity. Only a hash of the phone number is saved
+            to ensure it is not re-used in the future.
       required:
       - account_sid
       - auth
@@ -19894,6 +19929,10 @@ components:
           description: Stages used to configure Authenticator when user doesn't have
             any compatible devices. After this configuration Stage passes, the user
             is not prompted again.
+        last_auth_threshold:
+          type: string
+          description: If any of the user's device has been used within this threshold,
+            this stage will be skipped
       required:
       - component
       - meta_model_name
@@ -19927,6 +19966,11 @@ components:
           description: Stages used to configure Authenticator when user doesn't have
             any compatible devices. After this configuration Stage passes, the user
             is not prompted again.
+        last_auth_threshold:
+          type: string
+          minLength: 1
+          description: If any of the user's device has been used within this threshold,
+            this stage will be skipped
       required:
       - name
     AuthenticatorValidationChallenge:
@@ -20058,6 +20102,8 @@ components:
           type: object
           additionalProperties:
             type: string
+        title:
+          type: string
       required:
       - attrs
       - type
@@ -20067,11 +20113,6 @@ components:
       - authentik.core.auth.InbuiltBackend
       - authentik.core.auth.TokenBackend
       - authentik.sources.ldap.auth.LDAPBackend
-      type: string
-    BindModeEnum:
-      enum:
-      - direct
-      - cached
       type: string
     BindingTypeEnum:
       enum:
@@ -20501,8 +20542,11 @@ components:
           type: string
         cancel_url:
           type: string
+        layout:
+          $ref: '#/components/schemas/LayoutEnum'
       required:
       - cancel_url
+      - layout
     Coordinate:
       type: object
       description: Coordinates for diagrams
@@ -21463,6 +21507,8 @@ components:
         export_url:
           type: string
           readOnly: true
+        layout:
+          $ref: '#/components/schemas/LayoutEnum'
       required:
       - background
       - cache_count
@@ -21598,6 +21644,8 @@ components:
           type: boolean
           description: Enable compatibility mode, increases compatibility with password
             managers on mobile devices.
+        layout:
+          $ref: '#/components/schemas/LayoutEnum'
       required:
       - designation
       - name
@@ -22311,6 +22359,11 @@ components:
             the currently selected context.
       required:
       - name
+    LDAPAPIAccessMode:
+      enum:
+      - direct
+      - cached
+      type: string
     LDAPOutpostConfig:
       type: object
       description: LDAPProvider Serializer
@@ -22356,9 +22409,9 @@ components:
             for POSIX groups. Default is 4000 to ensure that we don't collide with
             local groups or users primary groups gidNumber
         search_mode:
-          $ref: '#/components/schemas/SearchModeEnum'
+          $ref: '#/components/schemas/LDAPAPIAccessMode'
         bind_mode:
-          $ref: '#/components/schemas/BindModeEnum'
+          $ref: '#/components/schemas/LDAPAPIAccessMode'
       required:
       - application_slug
       - bind_flow_slug
@@ -22509,9 +22562,9 @@ components:
             type: string
           readOnly: true
         search_mode:
-          $ref: '#/components/schemas/SearchModeEnum'
+          $ref: '#/components/schemas/LDAPAPIAccessMode'
         bind_mode:
-          $ref: '#/components/schemas/BindModeEnum'
+          $ref: '#/components/schemas/LDAPAPIAccessMode'
       required:
       - assigned_application_name
       - assigned_application_slug
@@ -22571,9 +22624,9 @@ components:
             for POSIX groups. Default is 4000 to ensure that we don't collide with
             local groups or users primary groups gidNumber
         search_mode:
-          $ref: '#/components/schemas/SearchModeEnum'
+          $ref: '#/components/schemas/LDAPAPIAccessMode'
         bind_mode:
-          $ref: '#/components/schemas/BindModeEnum'
+          $ref: '#/components/schemas/LDAPAPIAccessMode'
       required:
       - authorization_flow
       - name
@@ -22800,6 +22853,14 @@ components:
       - name
       - server_uri
       - slug
+    LayoutEnum:
+      enum:
+      - stacked
+      - content_left
+      - content_right
+      - sidebar_left
+      - sidebar_right
+      type: string
     Link:
       type: object
       description: Returns a single link
@@ -22939,7 +23000,6 @@ components:
       - group_obj
       - name
       - pk
-      - transports
     NotificationRuleRequest:
       type: object
       description: NotificationRule Serializer
@@ -22968,7 +23028,6 @@ components:
             and shown to. If left empty, Notification won't ben sent.
       required:
       - name
-      - transports
     NotificationTransport:
       type: object
       description: NotificationTransport Serializer
@@ -22997,12 +23056,12 @@ components:
           description: Only send notification once, for example when sending a webhook
             into a chat channel.
       required:
-      - mode
       - mode_verbose
       - name
       - pk
     NotificationTransportModeEnum:
       enum:
+      - local
       - webhook
       - webhook_slack
       - email
@@ -23028,7 +23087,6 @@ components:
           description: Only send notification once, for example when sending a webhook
             into a chat channel.
       required:
-      - mode
       - name
     NotificationTransportTest:
       type: object
@@ -23158,8 +23216,16 @@ components:
             format: uuid
             title: Allowed certificates for JWT-based client_credentials
           title: Allowed certificates for JWT-based client_credentials
-          description: JWTs created with the configured certificates can authenticate
-            with this provider.
+          description: DEPRECATED. JWTs created with the configured certificates can
+            authenticate with this provider.
+        jwks_sources:
+          type: array
+          items:
+            type: string
+            format: uuid
+            title: Any JWT signed by the JWK of the selected source can be used to
+              authenticate.
+          title: Any JWT signed by the JWK of the selected source can be used to authenticate.
       required:
       - assigned_application_name
       - assigned_application_slug
@@ -23238,8 +23304,16 @@ components:
             format: uuid
             title: Allowed certificates for JWT-based client_credentials
           title: Allowed certificates for JWT-based client_credentials
-          description: JWTs created with the configured certificates can authenticate
-            with this provider.
+          description: DEPRECATED. JWTs created with the configured certificates can
+            authenticate with this provider.
+        jwks_sources:
+          type: array
+          items:
+            type: string
+            format: uuid
+            title: Any JWT signed by the JWK of the selected source can be used to
+              authenticate.
+          title: Any JWT signed by the JWK of the selected source can be used to authenticate.
       required:
       - authorization_flow
       - name
@@ -23354,6 +23428,13 @@ components:
           allOf:
           - $ref: '#/components/schemas/SourceType'
           readOnly: true
+        oidc_well_known_url:
+          type: string
+        oidc_jwks_url:
+          type: string
+        oidc_jwks:
+          type: object
+          additionalProperties: {}
       required:
       - callback_url
       - component
@@ -23435,6 +23516,13 @@ components:
           minLength: 1
         additional_scopes:
           type: string
+        oidc_well_known_url:
+          type: string
+        oidc_jwks_url:
+          type: string
+        oidc_jwks:
+          type: object
+          additionalProperties: {}
       required:
       - consumer_key
       - consumer_secret
@@ -26728,6 +26816,11 @@ components:
           type: string
         auth_type:
           $ref: '#/components/schemas/AuthTypeEnum'
+        verify_only:
+          type: boolean
+          description: When enabled, the Phone number is only used during enrollment
+            to verify the users authenticity. Only a hash of the phone number is saved
+            to ensure it is not re-used in the future.
     PatchedAuthenticatorStaticStageRequest:
       type: object
       description: AuthenticatorStaticStage Serializer
@@ -26797,6 +26890,11 @@ components:
           description: Stages used to configure Authenticator when user doesn't have
             any compatible devices. After this configuration Stage passes, the user
             is not prompted again.
+        last_auth_threshold:
+          type: string
+          minLength: 1
+          description: If any of the user's device has been used within this threshold,
+            this stage will be skipped
     PatchedCaptchaStageRequest:
       type: object
       description: CaptchaStage Serializer
@@ -27088,6 +27186,8 @@ components:
           type: boolean
           description: Enable compatibility mode, increases compatibility with password
             managers on mobile devices.
+        layout:
+          $ref: '#/components/schemas/LayoutEnum'
     PatchedFlowStageBindingRequest:
       type: object
       description: FlowStageBinding Serializer
@@ -27337,9 +27437,9 @@ components:
             for POSIX groups. Default is 4000 to ensure that we don't collide with
             local groups or users primary groups gidNumber
         search_mode:
-          $ref: '#/components/schemas/SearchModeEnum'
+          $ref: '#/components/schemas/LDAPAPIAccessMode'
         bind_mode:
-          $ref: '#/components/schemas/BindModeEnum'
+          $ref: '#/components/schemas/LDAPAPIAccessMode'
     PatchedLDAPSourceRequest:
       type: object
       description: LDAP Source Serializer
@@ -27573,8 +27673,16 @@ components:
             format: uuid
             title: Allowed certificates for JWT-based client_credentials
           title: Allowed certificates for JWT-based client_credentials
-          description: JWTs created with the configured certificates can authenticate
-            with this provider.
+          description: DEPRECATED. JWTs created with the configured certificates can
+            authenticate with this provider.
+        jwks_sources:
+          type: array
+          items:
+            type: string
+            format: uuid
+            title: Any JWT signed by the JWK of the selected source can be used to
+              authenticate.
+          title: Any JWT signed by the JWK of the selected source can be used to authenticate.
     PatchedOAuthSourceRequest:
       type: object
       description: OAuth Source Serializer
@@ -27644,6 +27752,13 @@ components:
           minLength: 1
         additional_scopes:
           type: string
+        oidc_well_known_url:
+          type: string
+        oidc_jwks_url:
+          type: string
+        oidc_jwks:
+          type: object
+          additionalProperties: {}
     PatchedOutpostRequest:
       type: object
       description: Outpost Serializer
@@ -27766,9 +27881,6 @@ components:
       type: object
       description: Plex Source connection Serializer
       properties:
-        source:
-          type: string
-          format: uuid
         identifier:
           type: string
           minLength: 1
@@ -28348,9 +28460,6 @@ components:
       properties:
         user:
           type: integer
-        source:
-          type: string
-          format: uuid
         identifier:
           type: string
           minLength: 1
@@ -28366,9 +28475,6 @@ components:
         username:
           type: string
           minLength: 1
-          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
-            only.
-          pattern: ^[\w.@+-]+$
           maxLength: 150
         name:
           type: string
@@ -28550,8 +28656,9 @@ components:
           type: integer
           readOnly: true
         source:
-          type: string
-          format: uuid
+          allOf:
+          - $ref: '#/components/schemas/Source'
+          readOnly: true
         identifier:
           type: string
         plex_token:
@@ -28566,9 +28673,6 @@ components:
       type: object
       description: Plex Source connection Serializer
       properties:
-        source:
-          type: string
-          format: uuid
         identifier:
           type: string
           minLength: 1
@@ -28578,7 +28682,6 @@ components:
       required:
       - identifier
       - plex_token
-      - source
     PlexSourceRequest:
       type: object
       description: Plex Source Serializer
@@ -29220,7 +29323,7 @@ components:
           type: string
         token_validity:
           type: number
-          format: float
+          format: double
           nullable: true
           readOnly: true
         scopes_to_request:
@@ -30160,11 +30263,6 @@ components:
       - expression
       - name
       - scope_name
-    SearchModeEnum:
-      enum:
-      - direct
-      - cached
-      type: string
     SelectableStage:
       type: object
       description: Serializer for stages which can be selected by users
@@ -30921,9 +31019,6 @@ components:
           title: ID
         username:
           type: string
-          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
-            only.
-          pattern: ^[\w.@+-]+$
           maxLength: 150
         name:
           type: string
@@ -31190,8 +31285,9 @@ components:
         user:
           type: integer
         source:
-          type: string
-          format: uuid
+          allOf:
+          - $ref: '#/components/schemas/Source'
+          readOnly: true
         identifier:
           type: string
           maxLength: 255
@@ -31206,9 +31302,6 @@ components:
       properties:
         user:
           type: integer
-        source:
-          type: string
-          format: uuid
         identifier:
           type: string
           minLength: 1
@@ -31219,7 +31312,6 @@ components:
           nullable: true
       required:
       - identifier
-      - source
       - user
     UserPasswordSetRequest:
       type: object
@@ -31236,9 +31328,6 @@ components:
         username:
           type: string
           minLength: 1
-          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
-            only.
-          pattern: ^[\w.@+-]+$
           maxLength: 150
         name:
           type: string

@@ -27,7 +27,7 @@ const ConfigLogLevel = "log_level"
 type APIController struct {
 	Client       *api.APIClient
 	Outpost      api.Outpost
-	GlobalConfig api.Config
+	GlobalConfig *api.Config
 
 	Server Outpost
 
@@ -68,8 +68,9 @@ func NewAPIController(akURL url.URL, token string) *APIController {
 	outposts, _, err := apiClient.OutpostsApi.OutpostsInstancesList(context.Background()).Execute()
 
 	if err != nil {
-		log.WithError(err).Error("Failed to fetch outpost configuration")
-		return nil
+		log.WithError(err).Error("Failed to fetch outpost configuration, retrying in 3 seconds")
+		time.Sleep(time.Second * 3)
+		return NewAPIController(akURL, token)
 	}
 	outpost := outposts.Results[0]
 
@@ -113,7 +114,7 @@ func (a *APIController) Start() error {
 	if err != nil {
 		return err
 	}
-	err = a.StartBackgorundTasks()
+	err = a.StartBackgroundTasks()
 	if err != nil {
 		return err
 	}
@@ -165,7 +166,7 @@ func (a *APIController) OnRefresh() error {
 	return err
 }
 
-func (a *APIController) StartBackgorundTasks() error {
+func (a *APIController) StartBackgroundTasks() error {
 	OutpostInfo.With(prometheus.Labels{
 		"outpost_name": a.Outpost.Name,
 		"outpost_type": a.Server.Type(),

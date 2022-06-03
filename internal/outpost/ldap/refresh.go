@@ -44,7 +44,7 @@ func (ls *LDAPServer) Refresh() error {
 
 		// Get existing instance so we can transfer boundUsers
 		existing := ls.getCurrentProvider(provider.Pk)
-		users := make(map[string]flags.UserFlags)
+		users := make(map[string]*flags.UserFlags)
 		if existing != nil {
 			existing.boundUsersMutex.RLock()
 			users = existing.boundUsers
@@ -77,14 +77,14 @@ func (ls *LDAPServer) Refresh() error {
 			}
 			providers[idx].cert = ls.cs.Get(*kp)
 		}
-		if *provider.SearchMode.Ptr() == api.SEARCHMODEENUM_CACHED {
+		if *provider.SearchMode.Ptr() == api.LDAPAPIACCESSMODE_CACHED {
 			providers[idx].searcher = memorysearch.NewMemorySearcher(providers[idx])
-		} else if *provider.SearchMode.Ptr() == api.SEARCHMODEENUM_DIRECT {
+		} else if *provider.SearchMode.Ptr() == api.LDAPAPIACCESSMODE_DIRECT {
 			providers[idx].searcher = directsearch.NewDirectSearcher(providers[idx])
 		}
-		if *provider.BindMode.Ptr() == api.BINDMODEENUM_CACHED {
+		if *provider.BindMode.Ptr() == api.LDAPAPIACCESSMODE_CACHED {
 			providers[idx].binder = memorybind.NewSessionBinder(providers[idx])
-		} else if *provider.BindMode.Ptr() == api.BINDMODEENUM_DIRECT {
+		} else if *provider.BindMode.Ptr() == api.LDAPAPIACCESSMODE_DIRECT {
 			providers[idx].binder = directbind.NewDirectBinder(providers[idx])
 		}
 	}

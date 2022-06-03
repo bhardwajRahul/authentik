@@ -30,6 +30,7 @@ class AuthenticatorValidateStageSerializer(StageSerializer):
             "not_configured_action",
             "device_classes",
             "configuration_stages",
+            "last_auth_threshold",
         ]
 
 
@@ -40,3 +41,4 @@ class AuthenticatorValidateStageViewSet(UsedByMixin, ModelViewSet):
     serializer_class = AuthenticatorValidateStageSerializer
     filterset_fields = ["name", "not_configured_action", "configuration_stages"]
     ordering = ["name"]
+    search_fields = ["name"]

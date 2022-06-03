@@ -18,7 +18,18 @@ Using the `Not configured action`, you can choose what happens when a user does 
 -   Deny: Access is denied, the flow execution ends
 -   Configure: This option requires a _Configuration stage_ to be set. The validation stage will be marked as successful, and the configuration stage will be injected into the flow.
 
-## Passwordless authentication
+By default, authenticator validation is required every time the flow containing this stage is executed. To only change this behavior, set _Last validation threshold_ to a non-zero value. (Requires authentik 2022.5)
+Keep in mind that when using Code-based devices (TOTP, Static and SMS), values lower than `seconds=30` cannot be used, as with the way TOTP devices are saved, there is no exact timestamp.
+
+### Less-frequent validation
+
+:::info
+Requires authentik 2022.5.1
+:::
+
+You can configure this stage to only ask for MFA validation if the user hasn't authenticated themselves within a defined time period. To configure this, set _Last validation threshold_ to any non-zero value. Any of the users devices within the selected classes are checked.
+
+### Passwordless authentication
 
 :::info
 Requires authentik 2021.12.4
@@ -34,7 +45,7 @@ As final stage, bind a _User login_ stage.
 
 Users can either access this flow directly via it's URL, or you can modify any Identification stage to add a direct link to this flow.
 
-#### Logging
+### Logging
 
 Logins which used Passwordless authentication have the _auth_method_ context variable set to `auth_webauthn_pwl`, and the device used is saved in the arguments. Example:
 
